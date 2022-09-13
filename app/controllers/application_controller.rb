@@ -36,10 +36,20 @@ class ApplicationController < Sinatra::Base
     user.to_json(include: { reviews: { include: :author } })
   end
 
+    # get users by name
+    get "/users/by/:username" do
+      user = User.where("username = ?", params[:username])
+      user.to_json(include: :reviews)
+    end
+
   post "/users" do
+    # user = User.where(":username = ?", params[:username])
+    # user.to_json
+    # if user.length #checking array is empty
     user= User.create(
       username: params[:username]
     )
+    # end
     user.to_json
   end
   post "/reviews" do
